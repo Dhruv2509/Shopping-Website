@@ -1,38 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, ListGroup, Image, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Card, Row, Col, ListGroup, Image, Button } from "react-bootstrap";
 //import { PayPalButton } from 'react-paypal-button-v2';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import axios from "axios";
+import { payOrder, getOrderDetails,deliverOrder } from "../actions/orderActions";
 import {
-  
-  getOrderDetails
-  
-} from '../actions/orderActions';
-// import {
-//   ORDER_PAY_RESET,
-//   ORDER_DELIVER_RESET,
-// } from '../constants/orderConstants';
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from '../constants/orderConstants';
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
   const dispatch = useDispatch();
 
-//   const [sdkReady, setSdkReady] = useState(false);
+  //   const [sdkReady, setSdkReady] = useState(false);
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
-//   const orderPay = useSelector((state) => state.orderPay);
-//   const { loading: loadingPay, success: successPay } = orderPay;
+  //   const orderPay = useSelector((state) => state.orderPay);
+  //   const { loading: loadingPay, success: successPay } = orderPay;
 
-//   const orderDeliver = useSelector((state) => state.orderDeliver);
-//   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+    const orderDeliver = useSelector((state) => state.orderDeliver);
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
-//   const userLogin = useSelector((state) => state.userLogin);
-//   const { userInfo } = userLogin;
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -48,48 +44,48 @@ const OrderScreen = ({ match, history }) => {
   }
 
   useEffect(() => {
-    if(!order || order._id !== orderId) {
-        dispatch(getOrderDetails(orderId))
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId));
     }
-}, [dispatch, order, orderId])
-//   useEffect(() => {
-//     if (!userInfo) {
-//       history.push('/login');
-//     }
+  }, [dispatch, order, orderId]);
+  //   useEffect(() => {
+  //     if (!userInfo) {
+  //       history.push('/login');
+  //     }
 
-//     const addPayPalScript = async () => {
-//       const { data: clientId } = await axios.get('/api/config/paypal');
-//       const script = document.createElement('script');
-//       script.type = 'text/javascript';
-//       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=INR`;
-//       script.async = true;
-//       script.onload = () => {
-//         setSdkReady(true);
-//       };
-//       document.body.appendChild(script);
-//     };
+  //     const addPayPalScript = async () => {
+  //       const { data: clientId } = await axios.get('/api/config/paypal');
+  //       const script = document.createElement('script');
+  //       script.type = 'text/javascript';
+  //       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=INR`;
+  //       script.async = true;
+  //       script.onload = () => {
+  //         setSdkReady(true);
+  //       };
+  //       document.body.appendChild(script);
+  //     };
 
-//     if (!order || successPay || successDeliver) {
-//       dispatch({ type: ORDER_PAY_RESET });
-//       dispatch({ type: ORDER_DELIVER_RESET });
-//       dispatch(getOrderDetails(orderId));
-//     } else if (!order.isPaid) {
-//       if (!window.paypal) {
-//         addPayPalScript();
-//       } else {
-//         setSdkReady(true);
-//       }
-//     }
-//   }, [dispatch, orderId, successPay, order, successDeliver]);
+  //     if (!order || successPay || successDeliver) {
+  //       dispatch({ type: ORDER_PAY_RESET });
+  //       dispatch({ type: ORDER_DELIVER_RESET });
+  //       dispatch(getOrderDetails(orderId));
+  //     } else if (!order.isPaid) {
+  //       if (!window.paypal) {
+  //         addPayPalScript();
+  //       } else {
+  //         setSdkReady(true);
+  //       }
+  //     }
+  //   }, [dispatch, orderId, successPay, order, successDeliver]);
 
-//   const successPaymentHandler = (paymentResult) => {
-//     console.log(paymentResult);
-//     dispatch(payOrder(orderId, paymentResult));
-//   };
+  //   const successPaymentHandler = (paymentResult) => {
+  //     console.log(paymentResult);
+  //     dispatch(payOrder(orderId, paymentResult));
+  //   };
 
-//   const deliverHandler = () => {
-//     dispatch(deliverOrder(order));
-//   };
+    const deliverHandler = () => {
+      dispatch(deliverOrder(order));
+    };
 
   return loading ? (
     <Loader />
@@ -113,10 +109,10 @@ const OrderScreen = ({ match, history }) => {
               </p>
               <p>
                 <strong>Address: </strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city},{' '}
-                {order.shippingAddress.postalCode},{' '}
+                {order.shippingAddress.address}, {order.shippingAddress.city},{" "}
+                {order.shippingAddress.postalCode},{" "}
                 {order.shippingAddress.country}
-                {'.'}
+                {"."}
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
@@ -161,7 +157,7 @@ const OrderScreen = ({ match, history }) => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x {item.price} = &#x20B9;{' '}
+                          {item.qty} x {item.price} = &#x20B9;{" "}
                           {(item.qty * item.price).toFixed(2)}
                         </Col>
                       </Row>
@@ -218,7 +214,7 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </ListGroup.Item>
               )} */}
-              {/* {loadingDeliver && <Loader />}
+              {loadingDeliver && <Loader />}
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
@@ -232,7 +228,7 @@ const OrderScreen = ({ match, history }) => {
                       Mark As Delivered
                     </Button>
                   </ListGroup.Item>
-                )} */}
+                )}
             </ListGroup>
           </Card>
         </Col>
