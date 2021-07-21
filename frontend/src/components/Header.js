@@ -2,7 +2,7 @@ import React from "react";
 import {Route} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { Navbar, Nav, Container,NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container,NavDropdown, Button } from "react-bootstrap";
 import { logout } from "../actions/userActions";
 import SearchBox from './SearchBox'
 
@@ -27,6 +27,13 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             
             <Route render={({ history}) => <SearchBox history={history} />} />
+            
+            
+              <LinkContainer to="/imagesearch">
+                <Nav.Link>
+                  <p style={{color:'white'}}>Image Search</p>
+                </Nav.Link>
+              </LinkContainer>
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>

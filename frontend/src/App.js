@@ -18,6 +18,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import ImageSearch from './screens/ImageSearch';
 
 
 
@@ -46,6 +47,7 @@ function App() {
             <Route exact  path='/search/:keyword' component={HomeScreen} />
             <Route exact  path='/page/:pageNumber' component={HomeScreen} />
             <Route exact path='/search/:keyword/page/:pageNumber' component={HomeScreen} />
+            <Route exact path='/imagesearch' component={ImageSearch} />
             <Route exact path='/' component={HomeScreen} />
           </Container>
         </main>
